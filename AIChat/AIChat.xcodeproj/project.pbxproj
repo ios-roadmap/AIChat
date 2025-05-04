@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		644D8FBC2DC76A16004CB9B6 /* IRStyleKit in Frameworks */ = {isa = PBXBuildFile; productRef = 644D8FBB2DC76A16004CB9B6 /* IRStyleKit */; };
 		64E081BB2DC759ED00F28C86 /* IRStyleKit in Frameworks */ = {isa = PBXBuildFile; productRef = 64E081BA2DC759ED00F28C86 /* IRStyleKit */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				644D8FBC2DC76A16004CB9B6 /* IRStyleKit in Frameworks */,
 				64E081BB2DC759ED00F28C86 /* IRStyleKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +134,7 @@
 			name = AIChat;
 			packageProductDependencies = (
 				64E081BA2DC759ED00F28C86 /* IRStyleKit */,
+				644D8FBB2DC76A16004CB9B6 /* IRStyleKit */,
 			);
 			productName = AIChat;
 			productReference = 64C4FFD82DC68A620014529B /* AIChat.app */;
@@ -216,7 +219,7 @@
 			mainGroup = 64C4FFCF2DC68A620014529B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				64E081B92DC759ED00F28C86 /* XCLocalSwiftPackageReference "../../../Packages/IRStyleKit" */,
+				644D8FBA2DC76A16004CB9B6 /* XCLocalSwiftPackageReference "../../../Packages/IRStyleKit/IRStyleKit/IRStyleKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 64C4FFD92DC68A620014529B /* Products */;
@@ -650,13 +653,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		64E081B92DC759ED00F28C86 /* XCLocalSwiftPackageReference "../../../Packages/IRStyleKit" */ = {
+		644D8FBA2DC76A16004CB9B6 /* XCLocalSwiftPackageReference "../../../Packages/IRStyleKit/IRStyleKit/IRStyleKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../../Packages/IRStyleKit;
+			relativePath = ../../../Packages/IRStyleKit/IRStyleKit/IRStyleKit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		644D8FBB2DC76A16004CB9B6 /* IRStyleKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IRStyleKit;
+		};
 		64E081BA2DC759ED00F28C86 /* IRStyleKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = IRStyleKit;
