@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		64E081BB2DC759ED00F28C86 /* IRStyleKit in Frameworks */ = {isa = PBXBuildFile; productRef = 64E081BA2DC759ED00F28C86 /* IRStyleKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		64C4FFEA2DC68A640014529B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64E081BB2DC759ED00F28C86 /* IRStyleKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +131,7 @@
 			);
 			name = AIChat;
 			packageProductDependencies = (
+				64E081BA2DC759ED00F28C86 /* IRStyleKit */,
 			);
 			productName = AIChat;
 			productReference = 64C4FFD82DC68A620014529B /* AIChat.app */;
@@ -209,6 +215,9 @@
 			);
 			mainGroup = 64C4FFCF2DC68A620014529B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				64E081B92DC759ED00F28C86 /* XCLocalSwiftPackageReference "../../../Packages/IRStyleKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 64C4FFD92DC68A620014529B /* Products */;
 			projectDirPath = "";
@@ -537,7 +546,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
@@ -582,7 +591,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
@@ -639,6 +648,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		64E081B92DC759ED00F28C86 /* XCLocalSwiftPackageReference "../../../Packages/IRStyleKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../Packages/IRStyleKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		64E081BA2DC759ED00F28C86 /* IRStyleKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IRStyleKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 64C4FFD02DC68A620014529B /* Project object */;
 }
