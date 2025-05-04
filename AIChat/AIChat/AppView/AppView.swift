@@ -10,12 +10,11 @@ import IRStyleKit
 
 struct AppView: View {
 
-    @State var showTabBar: Bool = false
-//    @AppStorage("showTabbarView") var showTabBar: Bool = false
+    @State var appState: AppState = AppState()
 
     var body: some View {
         AppViewBuilder(
-            showTabBar: showTabBar,
+            showTabBar: appState.showTabBar,
             tabbarView: {
                 TabBarView()
             },
@@ -23,13 +22,14 @@ struct AppView: View {
                 OnboardingView()
             }
         )
+        .environment(appState)
     }
 }
 
 #Preview {
-    AppView(showTabBar: true)
+    AppView(appState: .init(showTabBar: true))
 }
 
-#Preview {
-    AppView(showTabBar: false)
+#Preview("False") {
+    AppView(appState: .init(showTabBar: false))
 }

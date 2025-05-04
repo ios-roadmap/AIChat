@@ -16,17 +16,16 @@ struct TabBarView: View {
                     Label("Explore", systemImage: "eyes")
                 }
 
-                Text("Chats")
+                ChatView()
                     .tabItem {
                         Label("Chats", systemImage: "bubble.left.and.bubble.right.fill")
                     }
 
-                Text("Profile")
+                ProfileView()
                     .tabItem {
                         Label("Profile", systemImage: "person.fill")
                     }
             }
-            .toolbarVisibility(.hidden, for: .navigationBar)
         }
     }
 }
