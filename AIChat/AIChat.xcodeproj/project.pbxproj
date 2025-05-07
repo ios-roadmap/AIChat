@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		644D8FBC2DC76A16004CB9B6 /* IRStyleKit in Frameworks */ = {isa = PBXBuildFile; productRef = 644D8FBB2DC76A16004CB9B6 /* IRStyleKit */; };
-		64E081BB2DC759ED00F28C86 /* IRStyleKit in Frameworks */ = {isa = PBXBuildFile; productRef = 64E081BA2DC759ED00F28C86 /* IRStyleKit */; };
+		64334FD12DCBF46D000FF581 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 64334FD02DCBF46D000FF581 /* SDWebImageSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,8 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				644D8FBC2DC76A16004CB9B6 /* IRStyleKit in Frameworks */,
-				64E081BB2DC759ED00F28C86 /* IRStyleKit in Frameworks */,
+				64334FD12DCBF46D000FF581 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,8 +131,7 @@
 			);
 			name = AIChat;
 			packageProductDependencies = (
-				64E081BA2DC759ED00F28C86 /* IRStyleKit */,
-				644D8FBB2DC76A16004CB9B6 /* IRStyleKit */,
+				64334FD02DCBF46D000FF581 /* SDWebImageSwiftUI */,
 			);
 			productName = AIChat;
 			productReference = 64C4FFD82DC68A620014529B /* AIChat.app */;
@@ -219,7 +216,7 @@
 			mainGroup = 64C4FFCF2DC68A620014529B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				644D8FBA2DC76A16004CB9B6 /* XCLocalSwiftPackageReference "../../../Packages/IRStyleKit/IRStyleKit/IRStyleKit" */,
+				64334FCF2DCBF46D000FF581 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 64C4FFD92DC68A620014529B /* Products */;
@@ -652,21 +649,22 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		644D8FBA2DC76A16004CB9B6 /* XCLocalSwiftPackageReference "../../../Packages/IRStyleKit/IRStyleKit/IRStyleKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../../Packages/IRStyleKit/IRStyleKit/IRStyleKit;
+/* Begin XCRemoteSwiftPackageReference section */
+		64334FCF2DCBF46D000FF581 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		644D8FBB2DC76A16004CB9B6 /* IRStyleKit */ = {
+		64334FD02DCBF46D000FF581 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = IRStyleKit;
-		};
-		64E081BA2DC759ED00F28C86 /* IRStyleKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = IRStyleKit;
+			package = 64334FCF2DCBF46D000FF581 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import IRStyleKit
 
 struct AppView: View {
 
