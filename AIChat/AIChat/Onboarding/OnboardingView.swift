@@ -14,6 +14,7 @@ struct OnboardingView: View {
         NavigationStack {
             VStack {
                 ImageLoaderView(urlString: imageName)
+                    .ignoresSafeArea(.all, edges: .top)
                 
                 titleSection
                     .padding(.top, 24)
@@ -41,7 +42,7 @@ struct OnboardingView: View {
     private var ctaButtons: some View {
         VStack(spacing: 8) {
             NavigationLink {
-                OnboardingComletedView()
+                OnboardingIntroView()
             } label: {
                 Text("Get Started")
                     .callToActionButton()
