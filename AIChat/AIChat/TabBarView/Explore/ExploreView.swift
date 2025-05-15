@@ -15,7 +15,7 @@ struct ExploreView: View {
         NavigationStack {
             HeroCellView(
                 title: avatar.name,
-                subtitle: avatar.name,
+                subtitle: avatar.characterDescription,
                 imageName: avatar.profileImageName
             )
             .frame(height: 200)

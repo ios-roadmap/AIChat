@@ -40,6 +40,10 @@ struct AvatarModel {
         self.dateCreated = dateCreated
     }
     
+    var characterDescription: String {
+        AvatarDescriptionBuilder(avatar: self).characterDescription
+    }
+    
     static var mock: AvatarModel {
         mocks[0]
     }
@@ -49,19 +53,15 @@ struct AvatarModel {
             .init(avatarId: UUID().uuidString, name: "Alpha", characterOption: .alien, characterAction: .smiling, characterLocation: .park, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now),
             .init(avatarId: UUID().uuidString, name: "Beta", characterOption: .dog, characterAction: .eating, characterLocation: .forest, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now),
             .init(avatarId: UUID().uuidString, name: "Gamma", characterOption: .cat, characterAction: .drinking, characterLocation: .museum, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now),
-            .init(avatarId: UUID().uuidString, name: "Delta", characterOption: .woman, characterAction: .shopping, characterLocation: .park, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now),
+            .init(avatarId: UUID().uuidString, name: "Delta", characterOption: .woman, characterAction: .shopping, characterLocation: .park, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now)
         ]
     }
-    
-    var characterDescription: String {
-        
-    }14 14 de kaldım. https://www.swiftful-thinking.com/products/swiftui-advanced-architecture/categories/2156266542/posts/2181762818
 }
 
 struct AvatarDescriptionBuilder {
-    let characterOption: CharacterOption?
-    let characterAction: CharacterAction?
-    let characterLocation: CharacterLocation?
+    let characterOption: CharacterOption
+    let characterAction: CharacterAction
+    let characterLocation: CharacterLocation
     
     init(characterOption: CharacterOption, characterAction: CharacterAction, characterLocation: CharacterLocation) {
         self.characterOption = characterOption
@@ -69,19 +69,31 @@ struct AvatarDescriptionBuilder {
         self.characterLocation = characterLocation
     }
     
+    init(avatar: AvatarModel) {
+        self.characterOption = avatar.characterOption ?? .default
+        self.characterAction = avatar.characterAction ?? .default
+        self.characterLocation = avatar.characterLocation ?? .default
+    }
+    
     var characterDescription: String {
-        "A \(characterOption.rawValue) that is \(characterAction?.rawValue  in the \(characterLocation))"
+        "A \(characterOption.rawValue) that is \(characterAction.rawValue) in the \(characterLocation)"
     }
 }
 
 enum CharacterOption: String {
     case man, woman, alien, dog, cat
+    
+    static var `default`: Self { .man }
 }
 
 enum CharacterAction: String {
     case smiling, sitting, eating, drinking, walking, shopping, studying, working, relaxing, figthing, crying
+    
+    static var `default`: Self { .smiling }
 }
 
 enum CharacterLocation: String {
     case park, mall, museum, city, desert, forest, space
+    
+    static var `default`: Self { .park }
 }
