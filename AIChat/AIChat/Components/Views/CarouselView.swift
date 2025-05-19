@@ -7,9 +7,6 @@
 
 import SwiftUI
 
-///How to use generics:  https://www.youtube.com/watch?v=rx3uRICZr5I&list=PLwvDm4Vfkdphc1LLLjCaEd87BEg07M97y&index=9
-///How to use scroll view APIs:  https://www.youtube.com/watch?v=hCpM95KHb_Q&list=PLwvDm4VfkdpiagxAXCT33Rkwnc5IVhTar&index=35
-
 struct CarouselView<Content: View, T: Hashable>: View {
     
     var items: [T]

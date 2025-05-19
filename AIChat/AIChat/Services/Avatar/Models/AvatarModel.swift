@@ -7,10 +7,6 @@
 
 import Foundation
 
-///Default olarak Sendable olur. Task içinde kullanımda Sendable şartı vardır.
-///Struct vs Class (advanced):  https://www.youtube.com/watch?v=-JLenSTKEcA&list=PLwvDm4Vfkdphr2Dl4sY4rS9PLzPdyi8PM&index=9&t=911s
-///What is the Sendable protocol:  https://www.youtube.com/watch?v=wSmTbtOwgbE&list=PLwvDm4Vfkdphr2Dl4sY4rS9PLzPdyi8PM&index=13&t=4s
-
 struct AvatarModel: Hashable {
     
     let avatarId: String
