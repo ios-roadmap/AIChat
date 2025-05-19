@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    
     @State var imageName: String = Constants.randomImage
+    @State var showSignInView: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -25,6 +27,15 @@ struct OnboardingView: View {
                 policyLinks
             }
         }
+        .sheet(
+            isPresented: $showSignInView,
+            content: {
+                CreateAccountView(
+                    title: "Sign in",
+                    subtitle: "Connect to an existing account."
+                )
+                .presentationDetents([.medium])
+        })
     }
     
     private var titleSection: some View {
@@ -54,10 +65,14 @@ struct OnboardingView: View {
                 .padding(8)
                 .tappableBackground()
                 .onTapGesture {
-                    debugPrint("ÖMER")
+                    showSignInView.toggle()
                 }
         }
         .padding(16)
+    }
+    
+    private func onSignInPressed() {
+        
     }
     
     private var policyLinks: some View {

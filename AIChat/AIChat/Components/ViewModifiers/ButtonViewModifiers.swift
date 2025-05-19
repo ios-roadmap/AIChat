@@ -15,7 +15,7 @@ struct HighlightButtonStyle: ButtonStyle {
                 configuration.isPressed ? Color.accent.opacity(0.4) : Color.accent.opacity(0)
             }
             .animation(.smooth, value: configuration.isPressed)
-            .cornerRadius(12)
+            .cornerRadius(6)
     }
 }
 
@@ -25,7 +25,7 @@ struct PressableButtonStyle: ButtonStyle {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
             .animation(.smooth, value: configuration.isPressed)
-            .cornerRadius(12)
+            .cornerRadius(6)
     }
 }
 
