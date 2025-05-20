@@ -2,42 +2,44 @@
 //  ChatView.swift
 //  AIChat
 //
-//  Created by Ömer Faruk Öztürk on 4.05.2025.
+//  Created by Ömer Faruk Öztürk on 20.05.2025.
 //
 
 import SwiftUI
 
 struct ChatView: View {
     
-    @State private var chats: [ChatModel] = ChatModel.mocks
+    @State private var chatMessages: [ChatMessageModel] = ChatMessageModel.mocks
+    @State private var avatar: AvatarModel? = .mock
+    @State private var currentUser: UserModel? = .mock
     
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(chats) { chat in
-                    ChatRowCellViewBuilder(
-                        currentUserId: nil,
-                        chat: chat,
-                        getAvatar: {
-                            try? await Task.sleep(for: .seconds(2))
-                            return .mock
-                        },
-                        getLastChatMessage: {
-                            try? await Task.sleep(for: .seconds(2))
-                            return .mock
-                        }
-                    )
-                    .anyButton(option: .highlight) {
-                        
+        VStack(spacing: 0) {
+            ScrollView {
+                LazyVStack(spacing: 24) {
+                    ForEach(chatMessages) { message in
+                        let isCurrentUser = message.authorId == currentUser?.userId
+                        ChatBubbleViewBuilder(
+                            message: message,
+                            isCurrentUser: isCurrentUser,
+                            imageName: isCurrentUser ? nil : avatar?.profileImageName
+                        )
                     }
-                    .removeListRowFormatting()
                 }
+                .frame(maxWidth: .infinity)
+                .padding(8)
             }
-            .navigationTitle("Chats")
+            
+            Rectangle()
+                .frame(height: 55)
         }
+        .navigationTitle(avatar?.name ?? "Chat")
+        .toolbarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    ChatView()
+    NavigationStack {
+        ChatView()
+    }
 }
