@@ -92,13 +92,13 @@ enum CharacterOption: String, CaseIterable, Hashable {
     }
 }
 
-enum CharacterAction: String {
+enum CharacterAction: String, CaseIterable, Hashable {
     case smiling, sitting, eating, drinking, walking, shopping, studying, working, relaxing, figthing, crying
     
     static var `default`: Self { .smiling }
 }
 
-enum CharacterLocation: String {
+enum CharacterLocation: String, CaseIterable, Hashable {
     case park, mall, museum, city, desert, forest, space
     
     static var `default`: Self { .park }
