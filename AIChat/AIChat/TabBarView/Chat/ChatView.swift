@@ -18,30 +18,19 @@ struct ChatView: View {
     @State private var showChatSettings: AnyAppAlert?
     
     @State private var scrollPosition: String?
+    @State private var showProfileModal: Bool = false
     
     var body: some View {
-        VStack(
-            spacing: 0
-        ) {
+        VStack(spacing: 0) {
             scrollViewSection
             textFieldSection
         }
-        .navigationTitle(
-            avatar?.name ?? "Chat"
-        )
-        .toolbarTitleDisplayMode(
-            .inline
-        )
+        .navigationTitle(avatar?.name ?? "Chat")
+        .toolbarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(
-                placement: .topBarTrailing
-            ) {
-                Image(
-                    systemName: "ellipsis"
-                )
-                .padding(
-                    8
-                )
+            ToolbarItem(placement: .topBarTrailing) {
+                Image(systemName: "ellipsis")
+                .padding(8)
                 .anyButton {
                     onChatSettingsPressed()
                 }
@@ -51,44 +40,48 @@ struct ChatView: View {
         .showCustomAlert(
             alert: $showAlert
         )
+        .showModal(showModal: $showProfileModal) {
+            if let avatar {
+                profileModal(avatar: avatar)
+            }
+        }
+    }
+    
+    private func profileModal(avatar: AvatarModel) -> some View {
+        ProfileModalView(
+            imageName: avatar.profileImageName,
+            title: avatar.name,
+            subtitle: avatar.characterOption?.rawValue.capitalized,
+            headline: avatar.characterDescription,
+            onXMarkPressed: {
+                onXMarkPressed()
+            }
+        )
+        .padding(40)
+        .transition(.move(edge: .bottom))
     }
     
     private var scrollViewSection: some View {
         ScrollView {
-            LazyVStack(
-                spacing: 24
-            ) {
-                ForEach(
-                    chatMessages
-                ) { message in
+            LazyVStack(spacing: 24) {
+                ForEach(chatMessages) { message in
                     let isCurrentUser = message.authorId == currentUser?.userId
                     ChatBubbleViewBuilder(
                         message: message,
                         isCurrentUser: isCurrentUser,
-                        imageName: isCurrentUser ? nil : avatar?.profileImageName
+                        imageName: isCurrentUser ? nil : avatar?.profileImageName,
+                        onImagePressed: {
+                            onAvatarImagePressed()
+                        }
                     )
-                    .id(
-                        message.id
-                    )
+                    .id(message.id)
                 }
             }
-            .frame(
-                maxWidth: .infinity
-            )
-            .padding(
-                8
-            )
-            .rotationEffect(
-                .degrees(
-                    180
-                )
-            )
+            .frame(maxWidth: .infinity)
+            .padding(8)
+            .rotationEffect(.degrees(180))
         }
-        .rotationEffect(
-            .degrees(
-                180
-            )
-        )
+        .rotationEffect(.degrees(180))
         .animation(
             .default,
             value: chatMessages.count
@@ -104,35 +97,17 @@ struct ChatView: View {
             "Say something...",
             text: $textFieldText
         )
-        .keyboardType(
-            .alphabet
-        )
+        .keyboardType(.alphabet)
         .autocorrectionDisabled()
-        .padding(
-            12
-        )
-        .padding(
-            .trailing,
-            60
-        )
+        .padding(12)
+        .padding(.trailing, 60)
         .overlay(
             alignment: .trailing,
             content: {
-                Image(
-                    systemName: "arrow.up.circle.fill"
-                )
-                .font(
-                    .system(
-                        size: 32
-                    )
-                )
-                .padding(
-                    .trailing,
-                    4
-                )
-                .foregroundStyle(
-                    .accent
-                )
+                Image(systemName: "arrow.up.circle.fill")
+                .font(.system(size: 32))
+                .padding(.trailing, 4)
+                .foregroundStyle(.accent)
                 .anyButton {
                     onSendMessagePressed()
                 }
@@ -140,39 +115,21 @@ struct ChatView: View {
         )
         .background(
             ZStack {
-                RoundedRectangle(
-                    cornerRadius: 100
-                )
+                RoundedRectangle(cornerRadius: 100)
                 .fill(
-                    Color(
-                        uiColor: .systemBackground
-                    )
+                    Color(uiColor: .systemBackground)
                 )
                 
-                RoundedRectangle(
-                    cornerRadius: 100
-                )
+                RoundedRectangle(cornerRadius: 100)
                 .stroke(
-                    Color.gray.opacity(
-                        0.3
-                    ),
+                    Color.gray.opacity(0.3),
                     lineWidth: 1
                 )
             }
         )
-        .padding(
-            .horizontal,
-            12
-        )
-        .padding(
-            .vertical,
-            6
-        )
-        .background(
-            Color(
-                uiColor: .secondarySystemBackground
-            )
-        )
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(Color(uiColor: .secondarySystemBackground))
     }
     
     private func onSendMessagePressed() {
@@ -226,6 +183,14 @@ struct ChatView: View {
                 )
             }
         )
+    }
+    
+    private func onAvatarImagePressed() {
+        showProfileModal = true
+    }
+    
+    private func onXMarkPressed() {
+        showProfileModal = false
     }
 }
 

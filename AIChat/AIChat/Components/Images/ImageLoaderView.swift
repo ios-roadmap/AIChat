@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct ImageLoaderView: View {
     let urlString: String
+    var forceTransitionAnimation: Bool = false
     
     var body: some View {
         Rectangle()
@@ -22,6 +23,14 @@ struct ImageLoaderView: View {
                     .allowsHitTesting(false)
             }
             .clipped()
+            .ifStatisfiedCondition(forceTransitionAnimation, transform: { content in
+                content
+                    .drawingGroup() // View hiyerarşisini tek bir bitmap olarak işler.
+                /// Bu modifier, karmaşık görsel yapıların GPU üzerinden daha performanslı çizilmesini sağlar.
+                /// Özellikle opacity, blur, mask gibi efektler yoğun kullanıldığında çizim yükünü azaltmak için tercih edilir.
+                /// Ancak her durumda kullanılmamalıdır — bitmap render belleği artırır ve dokunma (hit-testing) problemleri yaratabilir.
+                /// Animasyonlu yapılarda gereksiz yere invalidate olabileceği için dikkatli kullanılmalıdır.
+            })
     }
 }
 
