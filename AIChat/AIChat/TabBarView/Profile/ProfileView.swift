@@ -15,8 +15,10 @@ struct ProfileView: View {
     @State private var myAvatars: [AvatarModel] = []
     @State private var isLoading: Bool = true
     
+    @State private var path: [NavigationPathOption] = .init()
+    
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List {
                 myInfoSection
                 
@@ -28,6 +30,7 @@ struct ProfileView: View {
                     settingsButton
                 }
             }
+            .navigationDestinationForCoreModule(path: $path)
         }
         .sheet(isPresented: $showSettingsView) {
             SettingsView()
@@ -88,7 +91,7 @@ struct ProfileView: View {
                         title: avatar.name
                     )
                     .anyButton(option: .highlight) {
-                        
+                        onAvatarPressed(avatar: avatar)
                     }
                     .removeListRowFormatting()
                 }
@@ -120,9 +123,18 @@ struct ProfileView: View {
         guard let index = indexSet.first else { return }
         myAvatars.remove(at: index)
     }
+    
+    private func onAvatarPressed(avatar: AvatarModel) {
+        path.append(.chat(avatarId: avatar.avatarId))
+    }
 }
 
 #Preview {
-    ProfileView()
-        .environment(AppState())
+    NavigationStack {
+        ProfileView()
+            .environment(AppState())
+    }
 }
+
+// MARK: option + cmd + enter = Canvas
+// control + M
