@@ -19,6 +19,7 @@ fileprivate extension View {
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.authService) private var authService
     @Environment(AppState.self) private var appState
     
     @State private var isPremium: Bool = false
@@ -33,9 +34,19 @@ struct SettingsView: View {
                 applicationSection
             }
         }
-        .sheet(isPresented: $showCreateAccountView, content: {
-            CreateAccountView()
-                .presentationDetents([.medium])
+        .onAppear {
+            setAnonymousAccountStatus()
+        }
+        .sheet(
+            isPresented: $showCreateAccountView,
+            onDismiss: {
+                setAnonymousAccountStatus()
+            },
+            content: {
+                CreateAccountView()
+                    .presentationDetents(
+                        [.medium]
+                    )
         })
         .navigationTitle("Settings")
     }
@@ -62,7 +73,7 @@ struct SettingsView: View {
                 .foregroundStyle(.red)
                 .rowFormatting()
                 .anyButton(option: .highlight) {
-                    
+                    onDeleteAccountPressed()
                 }
                 .removeListRowFormatting()
         } header: {
@@ -128,15 +139,27 @@ struct SettingsView: View {
     
     func onSignOutPressed() {
         
-        dismiss()
         Task {
-            try? await Task.sleep(for: .seconds(1))
-            appState.updateViewState(showTabBarView: false)
+            
         }
     }
     
     func onCreateAccountPressed() {
         showCreateAccountView = true
+    }
+    
+    func setAnonymousAccountStatus() {
+        isAnonymousUser = authService.getAuthenticatedUser()?.isAnonymous == true
+    }
+    
+    func onDeleteAccountPressed() {
+        
+    }
+    
+    func dismissScreen() async {
+        dismiss()
+        try? await Task.sleep(for: .seconds(1))
+        appState.updateViewState(showTabBarView: false)
     }
 }
 
@@ -144,3 +167,5 @@ struct SettingsView: View {
     SettingsView()
         .environment(AppState())
 }
+
+dakika 14.00
