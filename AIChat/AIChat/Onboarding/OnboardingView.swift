@@ -9,6 +9,8 @@ import SwiftUI
 
 struct OnboardingView: View {
     
+    @Environment(AppState.self) private var root
+    
     @State var imageName: String = Constants.randomImage
     @State var showSignInView: Bool = false
     
@@ -32,7 +34,10 @@ struct OnboardingView: View {
             content: {
                 CreateAccountView(
                     title: "Sign in",
-                    subtitle: "Connect to an existing account."
+                    subtitle: "Connect to an existing account.",
+                    onDidSignIn: { isNewUser in
+                        handleDidSignIn(isNewUser: isNewUser)
+                    }
                 )
                 .presentationDetents([.medium])
         })
@@ -65,14 +70,23 @@ struct OnboardingView: View {
                 .padding(8)
                 .tappableBackground()
                 .onTapGesture {
-                    showSignInView.toggle()
+                    onSignInPressed()
                 }
         }
         .padding(16)
     }
     
+    private func handleDidSignIn(isNewUser: Bool) {
+        if isNewUser {
+            // Do nothing, user goes through onboarding
+        } else {
+            // Push into tabbar view
+            root.updateViewState(showTabBarView: true)
+        }
+    }
+    
     private func onSignInPressed() {
-        
+        showSignInView = true
     }
     
     private var policyLinks: some View {

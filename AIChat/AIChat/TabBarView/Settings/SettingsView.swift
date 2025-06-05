@@ -25,6 +25,7 @@ struct SettingsView: View {
     @State private var isPremium: Bool = false
     @State private var isAnonymousUser: Bool = true
     @State private var showCreateAccountView: Bool = false
+    @State private var showAlert: AnyAppAlert?
     
     var body: some View {
         NavigationStack {
@@ -49,6 +50,7 @@ struct SettingsView: View {
                     )
         })
         .navigationTitle("Settings")
+        .showCustomAlert(alert: $showAlert)
     }
     
     private var accountSection: some View {
@@ -138,9 +140,13 @@ struct SettingsView: View {
     }
     
     func onSignOutPressed() {
-        
         Task {
-            
+            do {
+                try authService.signOut()
+                await dismissScreen()
+            } catch {
+                showAlert = .init(error: error)
+            }
         }
     }
     
@@ -153,7 +159,28 @@ struct SettingsView: View {
     }
     
     func onDeleteAccountPressed() {
-        
+        showAlert = .init(
+            title: "Delete Account?",
+            subtitle: "This action is permanent and cannot be undone. Your data will be deleted from our server forever.",
+            buttons: {
+                AnyView(
+                    Button("Delete", role: .destructive, action: {
+                        onDeleteAccountConfirmed()
+                    })
+                )
+            }
+        )
+    }
+    
+    private func onDeleteAccountConfirmed() {
+        Task {
+            do {
+                try await authService.deleteAccount()
+                await dismissScreen()
+            } catch {
+                showAlert = AnyAppAlert(error: error)
+            }
+        }
     }
     
     func dismissScreen() async {
@@ -168,4 +195,3 @@ struct SettingsView: View {
         .environment(AppState())
 }
 
-dakika 14.00
