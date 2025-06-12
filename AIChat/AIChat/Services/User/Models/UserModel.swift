@@ -6,8 +6,13 @@
 //
 
 import SwiftUI
+import IdentifiableByString
 
-struct UserModel: Codable {
+struct UserModel: Codable, StringIdentifiable {
+    
+    var id: String {
+        userId
+    }
     
     let userId: String
     let email: String?

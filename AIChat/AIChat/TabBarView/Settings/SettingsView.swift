@@ -21,6 +21,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
 //    @Environment(\.authService) private var authService
     @Environment(AuthManager.self) private var authManager
+    @Environment(UserManager.self) private var userManager
     @Environment(AppState.self) private var appState
     
     @State private var isPremium: Bool = false
@@ -144,6 +145,7 @@ struct SettingsView: View {
         Task {
             do {
                 try authManager.signOut()
+                userManager.signOut()
                 await dismissScreen()
             } catch {
                 showAlert = .init(error: error)
@@ -177,6 +179,7 @@ struct SettingsView: View {
         Task {
             do {
                 try await authManager.deleteAccount()
+                try await userManager.deleteCurrentUser()
                 await dismissScreen()
             } catch {
                 showAlert = AnyAppAlert(error: error)
@@ -194,6 +197,7 @@ struct SettingsView: View {
 #Preview("No Auth") {
     SettingsView()
         .environment(AuthManager(service: MockAuthService(user: nil)))
+        .environment(UserManager(service: MockUserService(user: nil)))
 //        .environment(\.authManager, MockAuthService(user: nil))
         .environment(AppState())
 }
@@ -201,6 +205,7 @@ struct SettingsView: View {
 #Preview("Anonymous") {
     SettingsView()
         .environment(AuthManager(service: MockAuthService(user: .mock(isAnonymous: true))))
+        .environment(UserManager(service: MockUserService(user: .mock)))
 //        .environment(\.authManager, MockAuthService(user: .mock(isAnonymous: true)))
         .environment(AppState())
 }
@@ -208,6 +213,7 @@ struct SettingsView: View {
 #Preview("Not Anonymous") {
     SettingsView()
         .environment(AuthManager(service: MockAuthService(user: .mock())))
+        .environment(UserManager(service: MockUserService(user: .mock)))
 //        .environment(\.authManager, MockAuthService(user: .mock()))
         .environment(AppState())
 }
