@@ -27,7 +27,7 @@ struct EnvironmentBuilderView<Content: View>: View {
     var body: some View {
         content()
             .environment(AuthManager(service: FirebaseAuthService()))
-            .environment(UserManager(service: FirebaseUserService()))
+            .environment(UserManager(services: ProductionUserServices()))
 //            .environment(\.authService, FirebaseAuthService())
     }
 }
@@ -41,3 +41,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     return true
   }
 }
+
+
+
+18 14

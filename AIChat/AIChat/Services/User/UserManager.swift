@@ -7,14 +7,48 @@
 
 import SwiftUI
 
-protocol UserService: Sendable {
+protocol LocalUserPersistence {
+    func getCurrentUser() -> UserModel?
+    func saveCurrentUser(_ user: UserModel?) throws
+}
+
+struct FileManagerUserPersistence: LocalUserPersistence {
+    
+    private let userDocumentKey = "current_user"
+    
+    func getCurrentUser() -> UserModel? {
+        try? FileManager.getDocument(key: userDocumentKey)
+    }
+    
+    func saveCurrentUser(_ user: UserModel?) {
+        try? FileManager.saveDocument(key: userDocumentKey, value: user)
+    }
+}
+
+struct MockUserPersistence: LocalUserPersistence {
+    var currentUser: UserModel?
+    
+    init(user: UserModel? = nil) {
+        self.currentUser = user
+    }
+    
+    func getCurrentUser() -> UserModel? {
+        currentUser
+    }
+    
+    func saveCurrentUser(_ user: UserModel?) throws {
+        
+    }
+}
+
+protocol RemoteUserService: Sendable {
     func saveUser(user: UserModel) async throws
     func markOnboardingCompleted(userId: String, profileColorHex: String) async throws
     func doSomething(userId: String) -> AsyncThrowingStream<UserModel, Error>
     func deleteUser(userId: String) async throws
 }
 
-struct MockUserService: UserService {
+struct MockUserService: RemoteUserService {
     var currentUser: UserModel?
     
     init(user: UserModel? = nil) {
@@ -45,7 +79,7 @@ struct MockUserService: UserService {
 import FirebaseFirestore
 import SwiftfulFirestore
 
-struct FirebaseUserService: UserService {
+struct FirebaseUserService: RemoteUserService {
     
     var collection: CollectionReference {
         Firestore.firestore().collection("users")
@@ -73,24 +107,48 @@ struct FirebaseUserService: UserService {
     }
 }
 
+protocol UserServices {
+    var remote: RemoteUserService { get }
+    var local: LocalUserPersistence { get }
+}
+
+struct MockUserServices: UserServices {
+    let remote: RemoteUserService
+    let local: LocalUserPersistence
+    
+    init(user: UserModel? = nil) {
+        self.remote = MockUserService(user: user)
+        self.local = MockUserPersistence(user: user)
+    }
+}
+
+struct ProductionUserServices: UserServices {
+    let remote: RemoteUserService = FirebaseUserService()
+    let local: LocalUserPersistence = FileManagerUserPersistence()
+}
+
 @MainActor
 @Observable
 class UserManager {
     
-    private let service: UserService
+    private let remote: RemoteUserService
+    private let local: LocalUserPersistence
+    
     private(set) var currentUser: UserModel?
     private var currentUserListener: ListenerRegistration?
     
-    init(service: UserService) {
-        self.service = service
-        self.currentUser = nil
+    init(services: UserServices) {
+        self.remote = services.remote
+        self.local = services.local
+        self.currentUser = local.getCurrentUser()
+        print("LOADED CURRENT USER ON LAUNCH: \(currentUser?.userId)")
     }
     
     func logIn(auth: UserAuthInfo, isNewUser: Bool) async throws {
         let creationVersion = isNewUser ? Utilities.appVersion : nil
         let user = UserModel(auth: auth, creationVersion: creationVersion)
         
-        try await service.saveUser(user: user)
+        try await remote.saveUser(user: user)
         addCurrentUserListener(userId: auth.uid)
     }
     
@@ -99,8 +157,9 @@ class UserManager {
         
         Task {
             do {
-                for try await value in service.doSomething(userId: userId) {
+                for try await value in remote.doSomething(userId: userId) {
                     self.currentUser = value
+                    self.saveCurrentUserLocal()
                     print("Successfully listened to user: \(value.userId)")
                 }
             } catch {
@@ -109,9 +168,20 @@ class UserManager {
         }
     }
     
+    private func saveCurrentUserLocal() {
+        Task {
+            do {
+                try local.saveCurrentUser(currentUser)
+                print("Success saved current user local")
+            } catch {
+                print("Error saving current user locally: \(error)")
+            }
+        }
+    }
+    
     func markOnboardingCompleteForCurrentUser(profileColorHex: String) async throws {
         let uid = try currentUserId()
-        try await service.markOnboardingCompleted(userId: uid, profileColorHex: profileColorHex)
+        try await remote.markOnboardingCompleted(userId: uid, profileColorHex: profileColorHex)
     }
     
     func signOut() {
@@ -122,7 +192,7 @@ class UserManager {
     
     func deleteCurrentUser() async throws {
         let uid = try currentUserId()
-        try await service.deleteUser(userId: uid)
+        try await remote.deleteUser(userId: uid)
         signOut()
     }
     
