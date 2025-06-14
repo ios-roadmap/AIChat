@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct AvatarModel: Hashable {
+struct AvatarModel: Hashable, Codable {
     
     let avatarId: String
     let name: String?
     let characterOption: CharacterOption?
     let characterAction: CharacterAction?
     let characterLocation: CharacterLocation?
-    let profileImageName: String?
+    private(set) var profileImageName: String?
     let authorId: String?
     let dateCreated: Date?
     
@@ -40,6 +40,10 @@ struct AvatarModel: Hashable {
         AvatarDescriptionBuilder(avatar: self).characterDescription
     }
     
+    mutating func updateProfileImage(imageName: String) {
+        profileImageName = imageName
+    }
+    
     static var mock: AvatarModel {
         mocks[0]
     }
@@ -51,5 +55,16 @@ struct AvatarModel: Hashable {
             .init(avatarId: UUID().uuidString, name: "Gamma", characterOption: .cat, characterAction: .drinking, characterLocation: .museum, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now),
             .init(avatarId: UUID().uuidString, name: "Delta", characterOption: .woman, characterAction: .shopping, characterLocation: .park, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now)
         ]
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case avatarId = "avatar_id"
+        case name
+        case characterOption = "character_option"
+        case characterAction = "character_action"
+        case characterLocation = "character_location"
+        case profileImageName = "profile_image_name"
+        case authorId = "author_id"
+        case dateCreated = "date_created"
     }
 }

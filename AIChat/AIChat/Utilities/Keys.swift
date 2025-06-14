@@ -8,5 +8,5 @@
 import Foundation
 
 enum Keys {
-    static let OpenAIKey = "NAHH"
+    static let OpenAIKey = "BABAYI ALIRSIN"
 }
