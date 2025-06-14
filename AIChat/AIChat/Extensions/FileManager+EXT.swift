@@ -25,6 +25,6 @@ extension FileManager {
         FileManager.default
             .urls(for: .documentDirectory, in: .userDomainMask)
             .first!
-            .appendingPathComponent("\(key).txxt")
+            .appendingPathComponent("\(key).txt")
     }
 }
