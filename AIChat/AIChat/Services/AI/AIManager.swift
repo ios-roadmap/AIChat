@@ -19,5 +19,5 @@ class AIManager {
     
     func generateImage(input: String) async throws -> UIImage {
         try await service.generateImage(input: input)
-    }i
+    }
 }
