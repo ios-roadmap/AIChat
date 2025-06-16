@@ -122,7 +122,7 @@ struct ChatsView: View {
             .environment(
                 AvatarManager(
                     service: MockAvatarService(),
-                    local: MockLocalAvatarPersistance()
+                    local: MockLocalAvatarPersistence()
                 )
             )
     }

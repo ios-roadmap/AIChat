@@ -65,4 +65,25 @@ struct FirebaseAvatarService: RemoteAvatarService {
             AvatarModel.CodingKeys.clickCount.rawValue: FieldValue.increment(Int64(1))
         ])
     }
+    
+    func removeAuthorIdFromAvatar(avatarId: String) async throws {
+        try await collection.document(avatarId).updateData([
+            AvatarModel.CodingKeys.authorId.rawValue: NSNull()
+        ])
+    }
+    
+    func removeAuthorIdFromAllUserAvatars(userId: String) async throws {
+        let avatars = try await getAvatarsForAuthor(userId: userId)
+        
+        // It can send 50 requests simultaneously if there are 50 avatars synchronously.
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for avatar in avatars {
+                group.addTask {
+                    try await removeAuthorIdFromAvatar(avatarId: avatar.id)
+                }
+            }
+            
+            try await group.waitForAll()
+        }
+    }
 }
