@@ -11,10 +11,10 @@ import SwiftUI
 @Observable
 class AvatarManager {
     
-    private let local: LocalAvatarPersistance
+    private let local: LocalAvatarPersistence
     private let remote: RemoteAvatarService
      
-    init(service: RemoteAvatarService, local: LocalAvatarPersistance = MockLocalAvatarPersistance()) {
+    init(service: RemoteAvatarService, local: LocalAvatarPersistence = MockLocalAvatarPersistence()) {
         self.remote = service
         self.local = local
     }
@@ -51,4 +51,13 @@ class AvatarManager {
     func getAvatar(id: String) async throws -> AvatarModel {
         try await remote.getAvatar(id: id)
     }
+    
+    func removeAuthorIdFromAvatar(avatarId: String) async throws {
+        try await remote.removeAuthorIdFromAvatar(avatarId: avatarId)
+    }
+    
+    func aremoveAuthorIdFromAllUserAvatarss(userId: String) async throws {
+        try await remote.removeAuthorIdFromAllUserAvatars(userId: userId)
+    }
+    
 }
