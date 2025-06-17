@@ -9,4 +9,5 @@ import SwiftUI
 
 protocol AIService: Sendable {
     func generateImage(input: String) async throws -> UIImage
+    func generateText(input: String) async throws -> String
 }

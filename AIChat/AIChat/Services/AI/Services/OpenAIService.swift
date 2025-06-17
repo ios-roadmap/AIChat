@@ -10,9 +10,14 @@ import OpenAI
 
 struct OpenAIService: AIService {
     
+    typealias ChatContent = ChatQuery.ChatCompletionMessageParam.UserMessageParam.Content.VisionContent
+    typealias ChatText = ChatQuery.ChatCompletionMessageParam.UserMessageParam.Content.VisionContent.ChatCompletionContentPartTextParam
+    
     var openAI: OpenAI {
         print(Keys.OpenAIKey)
-        return OpenAI(apiToken: Keys.OpenAIKey)
+        return OpenAI(
+            apiToken: Keys.OpenAIKey
+        )
     }
     
     func generateImage(input: String) async throws -> UIImage {
@@ -33,6 +38,28 @@ struct OpenAIService: AIService {
         }
         
         return image
+    }
+    
+    func generateText(input: String) async throws -> String {
+        let message = ChatQuery.ChatCompletionMessageParam(
+            role: .user,
+            content: [ChatContent.chatCompletionContentPartTextParam(ChatText(text: input))]
+        )!
+        let query = ChatQuery(
+            messages: [
+                message
+            ],
+            model: .gpt3_5Turbo
+        )
+        let result = try await openAI.chats(query: query)
+        
+        guard let chat = result.choices.first?.message else {
+            throw OpenAIError.invalidResponse
+        }
+        
+        print("qwe")
+        print(chat.content)
+        return chat.content ?? "null"
     }
     
     enum OpenAIError: LocalizedError {
