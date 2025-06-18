@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		64334FD12DCBF46D000FF581 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 64334FD02DCBF46D000FF581 /* SDWebImageSwiftUI */; };
-		643ACC3F2DFD371700756786 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 643ACC3E2DFD371700756786 /* OpenAI */; };
 		644F78D42DDBB4B900C7ECC9 /* SwiftfulUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 644F78D32DDBB4B900C7ECC9 /* SwiftfulUtilities */; };
 		6456A4262DF9FB2C00F3279C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6456A4252DF9FB2C00F3279C /* FirebaseFirestore */; };
 		6456A4292DFA1E2700F3279C /* SwiftfulFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6456A4282DFA1E2700F3279C /* SwiftfulFirestore */; };
 		646BDACA2DEB3D1100E2FFC7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 646BDAC92DEB3D1100E2FFC7 /* FirebaseAuth */; };
 		649A68222DECDA9900B58938 /* SignInAppleAsync in Frameworks */ = {isa = PBXBuildFile; productRef = 649A68212DECDA9900B58938 /* SignInAppleAsync */; };
 		64E13B502DFDA15700488B00 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 64E13B4F2DFDA15700488B00 /* FirebaseStorage */; };
+		64E552092E03396E00C41FE0 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 64E552082E03396E00C41FE0 /* OpenAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,9 +78,9 @@
 			files = (
 				649A68222DECDA9900B58938 /* SignInAppleAsync in Frameworks */,
 				64334FD12DCBF46D000FF581 /* SDWebImageSwiftUI in Frameworks */,
+				64E552092E03396E00C41FE0 /* OpenAI in Frameworks */,
 				6456A4292DFA1E2700F3279C /* SwiftfulFirestore in Frameworks */,
 				646BDACA2DEB3D1100E2FFC7 /* FirebaseAuth in Frameworks */,
-				643ACC3F2DFD371700756786 /* OpenAI in Frameworks */,
 				64E13B502DFDA15700488B00 /* FirebaseStorage in Frameworks */,
 				6456A4262DF9FB2C00F3279C /* FirebaseFirestore in Frameworks */,
 				644F78D42DDBB4B900C7ECC9 /* SwiftfulUtilities in Frameworks */,
@@ -159,8 +159,8 @@
 				649A68212DECDA9900B58938 /* SignInAppleAsync */,
 				6456A4252DF9FB2C00F3279C /* FirebaseFirestore */,
 				6456A4282DFA1E2700F3279C /* SwiftfulFirestore */,
-				643ACC3E2DFD371700756786 /* OpenAI */,
 				64E13B4F2DFDA15700488B00 /* FirebaseStorage */,
+				64E552082E03396E00C41FE0 /* OpenAI */,
 			);
 			productName = AIChat;
 			productReference = 64C4FFD82DC68A620014529B /* AIChat.app */;
@@ -250,7 +250,7 @@
 				646BDAC82DEB3D1100E2FFC7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				649A68202DECDA9900B58938 /* XCRemoteSwiftPackageReference "SignInAppleAsync" */,
 				6456A4272DFA1E2700F3279C /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */,
-				643ACC3D2DFD371700756786 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				64E552072E03396E00C41FE0 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 64C4FFD92DC68A620014529B /* Products */;
@@ -692,14 +692,6 @@
 				minimumVersion = 3.1.3;
 			};
 		};
-		643ACC3D2DFD371700756786 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.3;
-			};
-		};
 		644F78D22DDBB4B900C7ECC9 /* XCRemoteSwiftPackageReference "SwiftfulUtilities" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulUtilities.git";
@@ -732,6 +724,14 @@
 				minimumVersion = 1.0.1;
 			};
 		};
+		64E552072E03396E00C41FE0 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -739,11 +739,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64334FCF2DCBF46D000FF581 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
-		};
-		643ACC3E2DFD371700756786 /* OpenAI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 643ACC3D2DFD371700756786 /* XCRemoteSwiftPackageReference "OpenAI" */;
-			productName = OpenAI;
 		};
 		644F78D32DDBB4B900C7ECC9 /* SwiftfulUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -774,6 +769,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 646BDAC82DEB3D1100E2FFC7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		64E552082E03396E00C41FE0 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64E552072E03396E00C41FE0 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

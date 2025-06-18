@@ -10,8 +10,8 @@ import OpenAI
 
 struct OpenAIService: AIService {
     
-    typealias ChatContent = ChatQuery.ChatCompletionMessageParam.UserMessageParam.Content.VisionContent
-    typealias ChatText = ChatQuery.ChatCompletionMessageParam.UserMessageParam.Content.VisionContent.ChatCompletionContentPartTextParam
+    typealias ChatContent = ChatQuery.ChatCompletionMessageParam.ChatCompletionUserMessageParam.Content.VisionContent
+    typealias ChatText = ChatQuery.ChatCompletionMessageParam.ChatCompletionUserMessageParam.Content.VisionContent.ChatCompletionContentPartTextParam
     
     var openAI: OpenAI {
         print(Keys.OpenAIKey)
@@ -43,7 +43,9 @@ struct OpenAIService: AIService {
     func generateText(input: String) async throws -> String {
         let message = ChatQuery.ChatCompletionMessageParam(
             role: .user,
-            content: [ChatContent.chatCompletionContentPartTextParam(ChatText(text: input))]
+            content: [
+                ChatContent.chatCompletionContentPartTextParam(ChatText(text: input))
+            ]
         )!
         let query = ChatQuery(
             messages: [
@@ -51,15 +53,22 @@ struct OpenAIService: AIService {
             ],
             model: .gpt3_5Turbo
         )
-        let result = try await openAI.chats(query: query)
-        
-        guard let chat = result.choices.first?.message else {
-            throw OpenAIError.invalidResponse
+        do {
+            let result = try await openAI.chats(query: query)
+            print(result)
+            
+            guard let chat = result.choices.first?.message else {
+                throw OpenAIError.invalidResponse
+            }
+            
+            print("qwe")
+            print(chat.content)
+            return chat.content?.string ?? ""
+        } catch {
+            print("❌ General Error: \(error.localizedDescription)")
+            throw error
         }
-        
-        print("qwe")
-        print(chat.content)
-        return chat.content ?? "null"
+       
     }
     
     enum OpenAIError: LocalizedError {
