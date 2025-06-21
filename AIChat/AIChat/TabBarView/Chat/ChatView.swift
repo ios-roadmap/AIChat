@@ -86,6 +86,7 @@ struct ChatView: View {
         ScrollView {
             LazyVStack(spacing: 24) {
                 ForEach(chatMessages) { message in
+                    
                     let isCurrentUser = message.authorId == currentUser?.userId
                     ChatBubbleViewBuilder(
                         message: message,
@@ -166,24 +167,38 @@ struct ChatView: View {
                         text: content
                     )
                 
+                let newChatMessage = AIChatModel(
+                    role: .user,
+                    message: content
+                )
+                
                 let message = ChatMessageModel(
                     id: UUID().uuidString,
                     chatId: UUID().uuidString,
                     authorId: currentUser.userId,
-                    content: content,
+                    content: newChatMessage,
                     seenByIds: nil,
                     dateCreated: .now
                 )
                 
-                chatMessages
-                    .append(
-                        message
-                    )
+                chatMessages.append(message)
                 scrollPosition = message.id
                 textFieldText = ""
                 
-                let result = try await aiManager.generateText(input: content)
-                print(result)
+                let aiChats = chatMessages.compactMap(\.content)
+                let result = try await aiManager.generateText(chats: aiChats)
+                
+                let newAIMessage = ChatMessageModel(
+                    id: UUID().uuidString,
+                    chatId: UUID().uuidString,
+                    authorId: avatarId,
+                    content: result,
+                    seenByIds: nil,
+                    dateCreated: .now
+                )
+
+                chatMessages.append(newAIMessage)
+                
             } catch let error {
                 showAlert = .init(
                     error: error

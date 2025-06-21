@@ -16,7 +16,7 @@ struct ChatBubbleViewBuilder: View {
     
     var body: some View {
         ChatBubbleView(
-            text: message.content ?? "",
+            text: message.content?.message ?? "",
             textColor: isCurrentUser ? .white : .primary,
             backgroundColor: isCurrentUser ? .accent : Color(uiColor: .systemGray6),
             imageName: imageName,
@@ -40,7 +40,7 @@ struct ChatBubbleViewBuilder: View {
                     id: UUID().uuidString,
                     chatId: UUID().uuidString,
                     authorId: UUID().uuidString,
-                    content: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
+                    content: .init(role: .assistant, message: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"),
                     seenByIds: nil,
                     dateCreated: .now
                 ),

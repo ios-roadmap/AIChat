@@ -52,7 +52,7 @@ struct ChatRowCellViewBuilder: View {
             return "Error"
         }
         
-        return lastChatMessage?.content
+        return lastChatMessage?.content?.message
     }
     
     var body: some View {

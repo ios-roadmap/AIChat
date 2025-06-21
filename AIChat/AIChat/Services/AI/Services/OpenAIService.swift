@@ -8,10 +8,10 @@
 import SwiftUI
 import OpenAI
 
+typealias ChatContent = ChatQuery.ChatCompletionMessageParam.ChatCompletionUserMessageParam.Content.VisionContent
+typealias ChatText = ChatQuery.ChatCompletionMessageParam.ChatCompletionUserMessageParam.Content.VisionContent.ChatCompletionContentPartTextParam
+
 struct OpenAIService: AIService {
-    
-    typealias ChatContent = ChatQuery.ChatCompletionMessageParam.ChatCompletionUserMessageParam.Content.VisionContent
-    typealias ChatText = ChatQuery.ChatCompletionMessageParam.ChatCompletionUserMessageParam.Content.VisionContent.ChatCompletionContentPartTextParam
     
     var openAI: OpenAI {
         print(Keys.OpenAIKey)
@@ -40,38 +40,87 @@ struct OpenAIService: AIService {
         return image
     }
     
-    func generateText(input: String) async throws -> String {
-        let message = ChatQuery.ChatCompletionMessageParam(
-            role: .user,
-            content: [
-                ChatContent.chatCompletionContentPartTextParam(ChatText(text: input))
-            ]
-        )!
+    func generateText(chats: [AIChatModel]) async throws -> AIChatModel {
+        let messages = chats.compactMap { $0.toOpenAIModel() }
+        
         let query = ChatQuery(
-            messages: [
-                message
-            ],
+            messages: messages,
             model: .gpt3_5Turbo
         )
-        do {
-            let result = try await openAI.chats(query: query)
-            print(result)
-            
-            guard let chat = result.choices.first?.message else {
-                throw OpenAIError.invalidResponse
-            }
-            
-            print("qwe")
-            print(chat.content)
-            return chat.content?.string ?? ""
-        } catch {
-            print("❌ General Error: \(error.localizedDescription)")
-            throw error
+        
+        let result = try await openAI.chats(query: query)
+        
+        guard let chat = result.choices.first?.message,
+              let model = AIChatModel(chat: chat) else {
+            throw OpenAIError.invalidResponse
         }
-       
+        
+        return model
     }
     
     enum OpenAIError: LocalizedError {
         case invalidResponse
+    }
+}
+
+struct AIChatModel {
+    let role: AIChatRole
+    let message: String
+    
+    init(role: AIChatRole, message: String) {
+        self.role = role
+        self.message = message
+    }
+    
+    init?(chat: ChatResult.Choice.ChatCompletionMessage) {
+        self.role = AIChatRole(role: chat.role)
+        if let string = chat.content?.string {
+            self.message = string
+        } else {
+            return nil
+        }
+    }
+    
+    func toOpenAIModel() -> ChatQuery.ChatCompletionMessageParam? {
+        ChatQuery.ChatCompletionMessageParam(
+            role: role.openAIRole,
+            content: [
+                ChatContent.chatCompletionContentPartTextParam(ChatText(text: message))
+            ]
+        )
+    }
+    
+    static var mock: AIChatModel {
+        .init(role: .assistant, message: "This is returned text from the AI")
+    }
+}
+
+enum AIChatRole {
+    case system, user, assistant, tool
+    
+    init(role: ChatQuery.ChatCompletionMessageParam.Role) {
+        switch role {
+        case .system:
+            self = .system
+        case .user:
+            self = .user
+        case .assistant:
+            self = .assistant
+        case .tool:
+            self = .tool
+        }
+    }
+    
+    var openAIRole: ChatQuery.ChatCompletionMessageParam.Role {
+        switch self {
+        case .system:
+            return .system
+        case .user:
+            return .user
+        case .assistant:
+            return .assistant
+        case .tool:
+            return .tool
+        }
     }
 }

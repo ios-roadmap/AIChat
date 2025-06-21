@@ -63,7 +63,7 @@ struct ChatBubbleView: View {
             )
             ChatBubbleView(
                 textColor: .white,
-                backgroundColor: .accent,
+                backgroundColor: .gray,
                 showImage: false
             )
         }

@@ -14,8 +14,8 @@ struct MockAIService: AIService {
         return UIImage(systemName: "photo")!
     }
     
-    func generateText(input: String) async throws -> String {
+    func generateText(chats: [AIChatModel]) async throws -> AIChatModel {
         try await Task.sleep(for: .seconds(2))
-        return "Mock"
+        return AIChatModel.mock
     }
 }
