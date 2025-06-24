@@ -80,7 +80,7 @@ struct AvatarModel: Hashable, Codable, StringIdentifiable {
     static var mocks: [AvatarModel] {
         [
             .init(
-                avatarId: UUID().uuidString,
+                avatarId: "mock_ava_1",
                 name: "Alpha",
                 characterOption: .alien,
                 characterAction: .smiling,
@@ -91,7 +91,7 @@ struct AvatarModel: Hashable, Codable, StringIdentifiable {
                 clickCount: 5
             ),
             .init(
-                avatarId: UUID().uuidString,
+                avatarId: "mock_ava_2",
                 name: "Beta",
                 characterOption: .dog,
                 characterAction: .eating,
@@ -102,7 +102,7 @@ struct AvatarModel: Hashable, Codable, StringIdentifiable {
                 clickCount: 10
             ),
             .init(
-                avatarId: UUID().uuidString,
+                avatarId: "mock_ava_3",
                 name: "Gamma",
                 characterOption: .cat,
                 characterAction: .drinking,
@@ -113,7 +113,7 @@ struct AvatarModel: Hashable, Codable, StringIdentifiable {
                 clickCount: 15
             ),
             .init(
-                avatarId: UUID().uuidString,
+                avatarId: "mock_ava_4",
                 name: "Delta",
                 characterOption: .woman,
                 characterAction: .shopping,

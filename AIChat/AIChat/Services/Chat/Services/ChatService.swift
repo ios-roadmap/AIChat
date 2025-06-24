@@ -7,4 +7,5 @@
 
 protocol ChatService: Sendable {
     func createNewChat(chat: ChatModel) async throws
+    func addChatMessage(chatId: String, message: ChatMessageModel) async throws
 }

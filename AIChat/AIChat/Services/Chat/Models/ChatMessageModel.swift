@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChatMessageModel: Identifiable {
+struct ChatMessageModel: Identifiable, Codable {
     let id: String
     let chatId: String
     let authorId: String?
@@ -29,6 +29,15 @@ struct ChatMessageModel: Identifiable {
         self.content = content
         self.seenByIds = seenByIds
         self.dateCreated = dateCreated
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case chatId = "chat_id"
+        case authorId = "author_id"
+        case content
+        case seenByIds = "seen_by_ids"
+        case dateCreated = "data_created"
     }
     
     func hasBeenSeenByCurrentUser(userId: String) -> Bool {
@@ -76,7 +85,7 @@ struct ChatMessageModel: Identifiable {
             ChatMessageModel(
                 id: "msg_001",
                 chatId: "chat_001",
-                authorId: "user_123",
+                authorId: UserAuthInfo.mock().uid,
                 content: .init(
                     role: .user,
                     message: "Hello baby"
@@ -87,7 +96,7 @@ struct ChatMessageModel: Identifiable {
             ChatMessageModel(
                 id: "msg_002",
                 chatId: "chat_001",
-                authorId: "user_456",
+                authorId: AvatarModel.mock.avatarId,
                 content: .init(
                     role: .assistant,
                     message: "What are you talking about? My brother'ım."
