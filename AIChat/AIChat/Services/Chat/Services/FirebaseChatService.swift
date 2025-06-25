@@ -29,4 +29,19 @@ struct FirebaseChatService: ChatService {
             ChatModel.CodingKeys.dateModified.rawValue: Date.now
         ])
     }
+    
+    func getChat(userId: String, avatarId: String) async throws -> ChatModel? {
+//        let result: [ChatModel] = try await collection
+//            .whereField(ChatModel.CodingKeys.userId.rawValue, isEqualTo: userId)
+//            .whereField(ChatModel.CodingKeys.avatarId.rawValue, isEqualTo: avatarId)
+//            .getAllDocuments()
+//            
+//        return result.first
+        
+        try await collection.getDocument(id: ChatModel.chatId(userId: userId, avatarId: avatarId))
+    }
+    
+    func streamChatMessages(chatId: String, onListenerConfigured: @escaping (ListenerRegistration) -> Void) -> AsyncThrowingStream<[ChatMessageModel], Error> {
+        messagesCollection(chatId: chatId).streamAllDocuments()
+    }
 }
